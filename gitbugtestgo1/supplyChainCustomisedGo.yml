@@ -1,0 +1,115 @@
+assets:
+    - name: Supplier
+      properties:
+          - name: SupplierId
+            type: string
+            mandatory: true
+            id: true
+          - name: RawMaterialAvailable
+            type: number
+            validate: positive()
+          - name: License
+            type: string
+            validate: min(10),max(18)
+          - name: ExpiryDate
+            type: date
+            validate: max('2020-06-26')
+          - name: Active
+            type: boolean
+            default: true
+    - name: Manufacturer
+      properties:
+          - name: ManufacturerId
+            type: string
+            mandatory: true
+            id: true
+          - name: RawMaterialAvailable
+            type: number
+            validate: max(8)
+          - name: ProductsAvailable
+            type: number
+            validate: min(3)
+          - name: CompletionDate
+            type: date
+            validate: min('2020-06-26T02:30:55Z'),max('2020-06-28T02:30:55Z')
+      methods:
+          crud: [create, getById]
+          others: [getHistoryById]
+    - name: Distributor
+      properties:
+        - name: DistributorId
+          type: string
+          mandatory: true
+          id: true
+        - name: ProductsToBeShipped
+          type: number
+        - name: ProductsShipped
+          type: number
+          validate: min(3)
+        - name: ProductsReceived
+          type: number
+          validate: negative()
+        - name: MailId
+          type: string
+          validate: email()
+        - name: DistributionDate
+          type: date
+      methods:
+          crud: [create, getById]
+          others: []
+    - name: Retailer
+      properties:
+        - name: RetailerId
+          type: string
+          mandatory: true
+          id: true
+        - name: ProductsOrdered
+          type: number
+          mandatory: true
+        - name: ProductsAvailable
+          type: number
+          default: 1
+        - name: ProductsSold
+          type: number
+        - name: Remarks
+          type: string
+          default: "open for business"
+        - name: Items
+          type: number[2:5]
+        - name: Domain
+          type: string
+          validate: url(),min(30),max(50)
+      methods:
+          crud: [create, getById]
+          others: []      
+    - name: Customer
+      properties:
+        - name: CustomerId
+          type: string
+          mandatory: true
+          id: true
+        - name: Name
+          type: string
+          mandatory: true
+        - name: ProductsBought
+          type: number
+        - name: OfferApplied
+          type: number
+          validate: negative()
+        - name: PhoneNumber
+          type: string
+          validate: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
+        - name: Received
+          type: boolean
+          default: false
+      methods:
+          crud: [create, getById]
+          others: []
+addHistory: false
+customMethods:
+    - executeQuery
+    - "FetchRawMaterial(supplierId string, rawMaterialSupply int)"
+    - "GetRawMaterialFromSupplier(manufacturerId string, supplierId string, rawMaterialSupply int)"
+    - "CreateProducts(manufacturerId string, rawMaterialConsumed int, productsCreated int)"
+    # - "CreateProductDate(manufacturerId string, rawMaterialConsumed int, productsCreated Date)"
+    - "SendProductsToDistribution()"

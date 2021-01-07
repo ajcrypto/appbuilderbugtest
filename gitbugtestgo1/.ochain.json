@@ -1,0 +1,9 @@
+{
+  "name": "gitbugtestgo1",
+  "description": "Chaincode package for gitbugtestgo1",
+  "chaincodeName": "gitbugtestgo1",
+  "chaincodeType":"golang",
+  "configFileLocation": "/Users/supplyChainCustomisedGo.yml",
+  "goDomain": "example.com",
+  "appBuilderVersion": "1.3.0"
+}

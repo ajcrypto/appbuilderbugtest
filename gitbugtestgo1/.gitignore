@@ -1,0 +1,6 @@
+.DS_Store
+go.sum
+reports/
+*.zip
+obcs/
+vendor/
